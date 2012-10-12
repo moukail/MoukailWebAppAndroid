@@ -1,0 +1,155 @@
+<!DOCTYPE html> 
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>jQuery Mobile Web App</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link href="jquery-mobile/jquery.mobile-1.0.min.css" rel="stylesheet" type="text/css" />
+        <link rel="stylesheet" href="mapapp.css" type="text/css">
+		<script type="text/javascript" src="jquery-mobile/jquery-1.7.1.min.js"></script>
+		<script type="text/javascript" src="jquery-mobile/jquery.mobile-1.0.min.js"></script>
+        <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+        <script type="text/javascript" src="jquery.ui.map/jquery.ui.map.js"></script>
+		<script type="text/javascript" src="jquery.ui.map/jquery.ui.map.services.js"></script>
+        <script type="text/javascript" src="cordova-2.1.0.js"></script>
+        <script type="text/javascript" src="jquery-mobile/json2.js"></script>
+		<script type="text/javascript" src="jquery-mobile/jquery.zend.jsonrpc.js"></script>
+        <script type="text/javascript" charset="utf-8" src="mapapp.complete.js"></script>
+        <script type="text/javascript" charset="utf-8" src="main.js"></script>
+        <script type="text/javascript" charset="utf-8">
+
+    // Wait for PhoneGap to load
+    //
+    document.addEventListener("deviceready", onDeviceReady, false);
+
+    // PhoneGap is ready
+    //
+    function onDeviceReady() {
+        var element = document.getElementById('deviceProperties');
+		element.innerHTML = 'Device Name: '     + device.name     + '<br />' + 
+                            'Device PhoneGap: ' + device.phonegap + '<br />' + 
+                            'Device Platform: ' + device.platform + '<br />' + 
+                            'Device UUID: '     + device.uuid     + '<br />' + 
+                            'Device Version: '  + device.version  + '<br />';
+		checkConnection();
+    }
+function checkConnection() {
+        var networkState = navigator.network.connection.type;
+
+        var states = {};
+        states[Connection.UNKNOWN]  = 'Unknown connection';
+        states[Connection.ETHERNET] = 'Ethernet connection';
+        states[Connection.WIFI]     = 'WiFi connection';
+        states[Connection.CELL_2G]  = 'Cell 2G connection';
+        states[Connection.CELL_3G]  = 'Cell 3G connection';
+        states[Connection.CELL_4G]  = 'Cell 4G connection';
+        states[Connection.NONE]     = 'No network connection';
+
+        alert('Connection type: ' + states[networkState]);
+    }
+
+    </script>
+
+	</head> 
+	<body>
+		<div data-role="page" id="page-home">
+    		<div data-role="header" data-nobackbtn="true">
+    			<img align="middle" alt="Radio Station" src="images/logo3.png"/>
+    		</div> <!-- /header -->
+    		<div data-role="content" id="content-result">
+    			<ul data-role="listview" data-inset="true">
+					<li><a href="#page-radio" data-transition="pop">Live Radio</a></li>
+					<li><a href="#page-contact" data-transition="pop">Contact ons</a></li>
+					<li><a href="#page-telefoon" data-transition="pop">mijn Telefoon</a></li>
+				</ul>
+    		</div>  <!-- /content-result -->
+		</div>  <!-- /page -->
+		<div data-role="page" id="page-radio">
+    		<div data-role="header" data-nobackbtn="true">
+    			<h1>Live Radio</h1>
+    		</div> <!-- /header -->
+    		<div data-role="navbar">
+        		<ul>
+            		<li><a id="nav-manual">Manual Control</a></li>
+            		<li><a id="nav-flip">Flip Control</a></li>
+        		</ul>
+    		</div><!-- /navbar --> 
+    		<div data-role="content" id="content-manual">
+    			<div data-role="button" id="playaudio">Play</div>
+				<div data-role="button" id="pauseaudio">Pause</div>
+        		<div data-role="button" id="stopaudio">Stop</div>
+    		</div>  <!-- /content-manual -->
+    		<div data-role="content" id="content-flip">
+   				<p>Switch <strong>ON</strong> to start Flip Control mode.</p>
+				<p>Flip phone face down to start music, face up to pause music.</p>
+				<div data-role="fieldcontain">
+            		<label for="pauseslider" data-theme="e">Start/Stop Flip Control Mode</label>
+            		<select name="pauseslider" id="pauseslider" data-role="slider">
+                		<option value="off" data-theme="e">OFF</option>
+                		<option value="on" data-theme="e">ON</option>
+            		</select>
+        		</div>
+			</div> <!-- /content-flip -->
+    		<div data-role="footer">
+    			<div data-role="navbar">
+    				<ul>
+        				<li><a> Current: <span id="audio_position">0 sec</span></a></li>
+        				<li><a>Total: <span id=media_dur>0</span> sec</a></li>
+    				</ul>
+    			</div><!-- /navbar -->
+			</div> <!-- /footer -->
+		</div>  <!-- /page -->
+        <div data-role="page" id="page-contact">
+    		<div data-role="header" data-nobackbtn="true">
+    			<h1>Contact</h1>
+    		</div> <!-- /header -->
+    		<div data-role="content">	
+				<ul data-role="listview" data-inset="true">
+					<li data-role="list-divider">Contact Options</li>
+					<li><a href="tel:0649253222"><img src="images/75-phone.png" alt="Call" class="ui-li-icon">Call</a></li>
+					<li><a href="mailto:moukafih@live.nl"><img src="images/18-envelope.png" alt="Email" class="ui-li-icon">Email</a></li>
+					<li><a href="sms:0649253222"><img src="images/09-chat-2.png" alt="SMS" class="ui-li-icon">SMS</a></li>
+					<li><a href="#page-map"><img src="images/103-map.png" alt="Directions" class="ui-li-icon">Directions</a></li>
+				</ul>
+			</div>
+		</div>  <!-- /page -->
+        <div data-role="page" id="page-telefoon">
+    		<div data-role="header" data-nobackbtn="true">
+    			<h1>Mijn Telefoon</h1>
+    		</div> <!-- /header -->
+    		<div data-role="content">	
+				<p id="deviceProperties">Loading device properties...</p>
+			</div>
+		</div>  <!-- /page -->
+        <div data-role="page" data-theme="c" data-fullscreen="true" id="page-map">
+			<div data-role="content" id="map-content">
+				<div id="map_canvas"></div>
+			</div><!-- /content -->
+	
+			<div data-role="footer" data-theme="d" data-position="fixed">
+				<div data-role="navbar">
+					<ul>
+    					<li><a href="#page-home">Home</a></li>
+    					<li><a href="#page-map" class="refresh">Refresh</a></li>
+    					<li><a href="#page-dir">Directions</a></li>
+					</ul>
+				</div><!-- /navbar -->
+			</div><!-- /footer -->
+		</div><!-- /page-map -->
+
+		<div data-role="page" data-theme="c" data-fullscreen="true" id="page-dir">
+			<div data-role="content">
+				<div id="dir_panel"></div>
+			</div><!-- /content -->
+
+			<div data-role="footer" data-theme="d" data-position="fixed">
+				<div data-role="navbar">
+					<ul>
+    					<li><a href="#page-home">Home</a></li>
+    					<li><a href="#page-map">Map</a></li>
+					</ul>
+				</div><!-- /navbar -->
+			</div><!-- /footer -->
+		</div><!-- /page-dir -->
+	</body>
+</html>

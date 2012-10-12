@@ -1,0 +1,81 @@
+<!DOCTYPE html> 
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>jQuery Mobile Web App</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link href="jquery-mobile/jquery.mobile-1.0.min.css" rel="stylesheet" type="text/css" />
+        <script type="text/javascript" src="jquery-mobile/jquery-1.7.1.min.js"></script>
+		<script type="text/javascript" src="jquery-mobile/jquery.mobile-1.0.min.js"></script>
+        <script type="text/javascript" src="phonegap-1.3.0.js"></script>
+        <script type="text/javascript" src="jquery-mobile/json2.js"></script>
+		<script type="text/javascript" src="jquery-mobile/jquery.zend.jsonrpc.js"></script>
+		<script>
+			var M = function(){};
+			M.prototype.pageid = null;
+			M.prototype.pagename = null;
+			M.prototype.setPage = function(id, name){
+				M.prototype.pageid = id;
+				M.prototype.pagename = name;
+				$("#type_title").append(name);
+				//alert("test :" + name);
+			}
+			//page-type" onclick="M.prototype.setPage('+data[key1]['id']+',\''+data[key1]['name']+'\')
+			M.prototype.makeList = function(data){
+				
+				$('#landen-result ul').remove();
+				$('#landen-result').append('<ul data-role="listview" data-inset="true"></ul>');
+				listItems = $('#landen-result').find('ul');
+	        	html = "";
+	        	$.each(data, function(key1) {
+	        		html = '<li><a href="#">'+data[key1]['name']+'</a></li>';
+	        		listItems.append(html);
+	        		});
+	        	$('#landen-result ul').listview();
+			}
+			$(document).ready(function(){
+				var m = new M();
+				var test = jQuery.Zend.jsonrpc({url: 'http://streamtv.phpfogapp.com/service/json'});
+				var data = test.returnCountries();
+				
+				if ('' != data) {
+					//M.prototype.makeList(data);
+					//alert("test :" + data[0]['name']);
+					        }
+			});
+		</script>
+	</head> 
+	<body>
+		<div data-role="page" data-theme="a" id="page-home">
+    		<div data-role="header" data-nobackbtn="true" data-theme="e">
+    			<img align="middle" alt="Radio Station" src="images/logo3.png"/>
+    		</div> <!-- /header -->
+    		<div data-role="content" id="content-result" data-theme="a">
+    			<ul data-role="listview" data-inset="true">
+					<li><a href="#page-landen" data-transition="pop">Landen</a></li>
+					<li><a href="html/categories.html" data-transition="pop">Categorie</a></li>
+					<li><a href="html/talen.html" data-transition="pop">Taal</a></li>
+				</ul>
+    		</div>  <!-- /content-result -->
+		</div>  <!-- /page -->
+		<div data-role="page" data-theme="a" id="page-landen">
+		
+    		<div data-role="header" data-nobackbtn="true" data-theme="e">
+    			<h3>Landen</h3>
+    		</div> <!-- /header -->
+    		<div data-role="content" id="landen-result" data-theme="a"></div>  <!-- /content-result -->
+    		<script type="text/javascript">
+			$(function() {
+				var test3 = jQuery.Zend.jsonrpc({url: 'http://streamtv.phpfogapp.com/service/json'});
+			var data2 = test3.returnCountries();
+			
+			if ('' != data2) {
+				alert("test :" + data2[0]['name']);
+				M.prototype.makeList(data2);
+				$('#landen-result ul').listview();
+				        }
+			});
+		</script>
+		</div>  <!-- /page -->
+	</body>
+</html>

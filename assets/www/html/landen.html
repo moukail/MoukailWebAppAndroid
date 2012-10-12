@@ -1,0 +1,59 @@
+<!DOCTYPE html> 
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>jQuery Mobile Web App</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link href="../jquery-mobile/jquery.mobile-1.0.min.css" rel="stylesheet" type="text/css" />
+        <script type="text/javascript" src="../jquery-mobile/jquery-1.7.1.min.js"></script>
+		<script type="text/javascript" src="../jquery-mobile/jquery.mobile-1.0.min.js"></script>
+        <script type="text/javascript" src="../phonegap-1.3.0.js"></script>
+        <script type="text/javascript" src="../jquery-mobile/json2.js"></script>
+		<script type="text/javascript" src="../jquery-mobile/jquery.zend.jsonrpc.js"></script>
+		<script>
+			/*var M = function(){};
+			M.prototype.pageid = null;
+			M.prototype.pagename = null;
+			M.prototype.setPage = function(id, name){
+				M.prototype.pageid = id;
+				M.prototype.pagename = name;
+				$("#type_title").append(name);
+				//alert("test :" + name);
+			}
+			//page-type" onclick="M.prototype.setPage('+data[key1]['id']+',\''+data[key1]['name']+'\')
+			M.prototype.makeList = function(data){
+				
+				$('#landen-result ul').remove();
+				$('#landen-result').append('<ul data-role="listview" data-inset="true"></ul>');
+				listItems = $('#landen-result').find('ul');
+	        	html = "";
+	        	$.each(data, function(key1) {
+	        		html = '<li><a href="#">'+data[key1]['name']+'</a></li>';
+	        		listItems.append(html);
+	        		});
+	        	$('#landen-result ul').listview();
+			}*/
+			$(document).ready(function(){
+				//var m = new M();
+				var test = jQuery.Zend.jsonrpc({url: 'http://streamtv.phpfogapp.com/service/json'});
+				var data = test.radioStation(4,8);
+				
+				if ('' != data) {
+					$('#result').append("test :"+ data['result']);
+					//alert("test :" + data);
+								//M.prototype.makeList(data);
+					        }
+			});
+		</script>
+	</head> 
+	<body>
+		<div data-role="page" data-theme="a" id="page-landen">
+    		<div data-role="header" data-nobackbtn="true" data-theme="e">
+    			<h3>Landen</h3>
+    		</div> <!-- /header -->
+    		<div data-role="content" id="landen-result" data-theme="a">
+    		<div id="result"></div>
+    		</div>  <!-- /content-result -->
+		</div>  <!-- /page -->
+	</body>
+</html>
